@@ -22,7 +22,8 @@
 
 #include "PreCompiled.h"
 #ifndef _PreComp_
-    #include <QGraphicsScene> // TODO: This doesn't seem to be in the precompiled header?
+# include <QGraphicsScene> // TODO: This doesn't seem to be in the precompiled header?
+# include <QColor>
 #endif // #ifndef _PreComp_
 
 #include "App/Application.h"
@@ -49,11 +50,11 @@ GIBase::GIBase()
     Base::Reference<ParameterGrp> hGrp = App::GetApplication().GetUserParameter()
         .GetGroup("BaseApp")->GetGroup("Preferences")->GetGroup("Mod/TechDraw/Colors");
     App::Color fcColor = App::Color((uint32_t) hGrp->GetUnsigned("NormalColor", 0x00000000));
-    m_colNormal = fcColor.asQColor();
+    m_colNormal = fcColor.asValue<QColor>();
     fcColor.setPackedValue(hGrp->GetUnsigned("SelectColor", 0x0000FF00));
-    m_colSel = fcColor.asQColor();
+    m_colSel = fcColor.asValue<QColor>();
     fcColor.setPackedValue(hGrp->GetUnsigned("PreSelectColor", 0x00080800));
-    m_colPre = fcColor.asQColor();
+    m_colPre = fcColor.asValue<QColor>();
 
     m_colCurrent = m_colNormal;
     m_pen.setColor(m_colCurrent);

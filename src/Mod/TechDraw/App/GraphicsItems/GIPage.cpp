@@ -23,6 +23,7 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
     #include <QSvgGenerator>
+    #include <QSvgRenderer>
     #include <QPainter>
 #endif // #ifndef _PreComp_
 
