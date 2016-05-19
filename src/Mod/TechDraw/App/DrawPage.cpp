@@ -29,8 +29,6 @@
 # include <iterator>
 #endif
 
-#include <boost/regex.hpp>
-
 #include <Base/Exception.h>
 #include <Base/Console.h>
 #include <Base/FileInfo.h>
