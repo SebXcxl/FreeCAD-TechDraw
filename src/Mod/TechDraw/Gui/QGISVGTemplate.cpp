@@ -67,19 +67,18 @@ void QGISVGTemplate::clearContents()
 void QGISVGTemplate::draw()
 {
     // Ensures that pageTemplate is valid and refers to a renderable SVG file
-    if (!renderSvg())
+    if (!renderSvg()) {
         return;
+    }
 
     auto tmplte(static_cast<TechDraw::DrawSVGTemplate *>(pageTemplate));
 
     clearContents();
 
-    // tmplte->PageResult is the file name of the template
+    // tmplte->PageResult is the file name of the modified template
     Base::FileInfo fi( tmplte->PageResult.getValue() );
 
-    // make a temp file for FileIncluded Property
-    std::string tempName = tmplte->PageResult.getExchangeTempFile();
-    std::ostringstream ofile;
+    std::ostringstream oStream;
     std::string tempendl = "--endOfLine--";
     std::string line;
 
@@ -90,11 +89,11 @@ void QGISVGTemplate::draw()
         // check if the marker in the template is found
         if(line.find("<!-- DrawingContent -->") == std::string::npos) {
             // if not -  write through
-            ofile << line << tempendl;
+            oStream << line << tempendl;
         }
     }
 
-    std::string outfragment(ofile.str());
+    std::string outfragment(oStream.str());
 
     // Find text tags with freecad:editable attribute and their matching tspans
     // keep tagRegex in sync with App/DrawSVGTemplate.cpp
@@ -155,4 +154,3 @@ void QGISVGTemplate::updateView(bool update)
 {
     draw();
 }
-

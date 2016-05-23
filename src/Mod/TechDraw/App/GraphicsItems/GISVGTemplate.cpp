@@ -27,6 +27,7 @@
     #include <QGraphicsSvgItem>
 #endif // #ifndef _PreComp_
 
+#include <Base/Console.h>
 #include "../DrawSVGTemplate.h"
 
 #include "GISVGTemplate.h"
@@ -81,5 +82,3 @@ bool GISVGTemplate::renderSvg()
 
     return true;
 }
-
-
