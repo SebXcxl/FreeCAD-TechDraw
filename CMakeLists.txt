@@ -74,10 +74,13 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGXX)
     endif(BUILD_ENABLE_CXX11)
     set(CMAKE_CXX_FLAGS "-Wall -Wno-deprecated -Wno-write-strings ${CMAKE_CXX_FLAGS}")
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
+
     # get linker errors as soon as possible and not at runtime e.g. for modules
-    if(UNIX)
-    #    SET(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
-    endif(UNIX)
+    if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-undefined,error")
+    elseif(UNIX)
+        set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
+    endif()
 endif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGXX)
 
 # ================================================================================
@@ -195,6 +198,7 @@ OPTION(BUILD_SKETCHER "Build the FreeCAD sketcher module" ON)
 OPTION(BUILD_SPREADSHEET "Build the FreeCAD spreadsheet module" ON)
 OPTION(BUILD_START "Build the FreeCAD start module" ON)
 OPTION(BUILD_TEST "Build the FreeCAD test module" ON)
+OPTION(BUILD_TECHDRAW "Build the FreeCAD Technical Drawing module" ON)
 OPTION(BUILD_WEB "Build the FreeCAD web module" ON)
 OPTION(BUILD_VR "Build the FreeCAD Oculus Rift support (need Oculus SDK 4.x or higher)" OFF)
 
@@ -231,6 +235,7 @@ if(BUILD_COMPLETE)
   set(BUILD_MESH ON)
   set(BUILD_POINTS ON)
   set(BUILD_DRAWING ON)
+  set(BUILD_TECHDRAW ON)
   set(BUILD_RAYTRACING ON)
   set(BUILD_PART_DESIGN ON)
   set(BUILD_IMAGE ON)
@@ -302,6 +307,13 @@ if(BUILD_DRAWING)
   set(BUILD_PART ON)
   set(BUILD_SPREADSHEET ON)
 endif(BUILD_DRAWING)
+
+#add TechDraw
+if(BUILD_TECHDRAW)
+  set(BUILD_PART ON)
+  set(BUILD_SPREADSHEET ON)
+endif(BUILD_TECHDRAW)
+
 
 #inferred from cmakelists.txt. appears to be working.
 if(BUILD_ROBOT)
@@ -1043,4 +1055,3 @@ if (${CMAKE_BUILD_TOOL} MATCHES "make")
             "Now run 'make' to build ${PACKAGE_NAME}\n"
             "=======================================\n")
 endif()
-
